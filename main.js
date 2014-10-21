@@ -38,7 +38,7 @@ function s3instance(accessKey, secretKey) {
         }
     };
 
-    this.writePolicy = function(key, bucket, duration, filesize, cb) {
+    this.writePolicy = function(key, bucket, duration, filesize, acl, cb) {
         var dateObj = new Date;
         var dateExp = new Date(dateObj.getTime() + duration * 1000);
         var policy = {
@@ -46,7 +46,7 @@ function s3instance(accessKey, secretKey) {
             "conditions":[
                 { "bucket":bucket },
                 ["eq", "$key", key],
-                { "acl":"private" },
+                { "acl": acl},
                 ["content-length-range", 0, filesize * 1000000],
                 ["starts-with", "$Content-Type", ""]
             ]
